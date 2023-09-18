@@ -1,3 +1,7 @@
+.card {
+    border: 1px solid #5fa085;
+}
+
 .card-header {
     background-color: #5fa085;
 }
@@ -55,4 +59,12 @@
     background-color: white;
     border: 2px solid #5fa085;
     color: #5fa085;
+}
+
+.text-header{
+    color: #5fa085;
+}
+
+.listTacheHeader {
+    height: 50px;
 }
