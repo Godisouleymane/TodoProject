@@ -40,3 +40,10 @@
 #text-area:focus {
     border: 2px solid #5fa085;
 }
+
+.mon-button {
+    background-color: #5fa085;
+    height: 40px;
+    color: white;
+    font-weight: 600;
+}
