@@ -1,0 +1,42 @@
+.card-header {
+    background-color: #5fa085;
+}
+
+#select-categorie, #select-statut {
+    height: 40px;
+    appearance: none;
+    background-color: white;
+    font-weight: 300;
+    border-radius: 7px;
+    padding: 3px;
+    outline: none;
+}
+
+#select-categorie:hover, #select-statut:hover {
+    appearance: textfield;
+}
+
+#input-titre, #input-date {
+    height: 40px;
+    border-radius: 7px;
+    font-weight: 300;
+    padding: 3px;
+    outline: none;
+    font-family: sans-serif;
+}
+
+#select-categorie:focus, #input-titre:focus {
+    border: 1px solid #5fa085;
+    outline: 1px solid #5fa085;
+}
+
+
+
+#text-area {
+    border-radius: 7px;
+    outline: none;
+}
+
+#text-area:focus {
+    border: 2px solid #5fa085;
+}
