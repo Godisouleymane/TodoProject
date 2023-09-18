@@ -27,6 +27,7 @@
     padding: 3px;
     outline: none;
     font-family: sans-serif;
+    border: 1px solid black;
 }
 
 #select-categorie:focus, #input-titre:focus {
