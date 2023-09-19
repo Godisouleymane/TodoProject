@@ -60,40 +60,63 @@
                     <h5 class="text-header">Listes des taches</h5>
                 </div>
                 <div class="card-body">
-                    <div class="card ">
-                        <div class="card-header listTacheHeader justify-content-around d-flex text-white fw-bold">
-                            <span>#</span>
-                            <span>Date</span>
-                            <span>Titre</span>
-                            <span>Categorie</span>
-                            <span>Operations</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="allTaches overflow-y-scroll">
-                                
+                            <div class="bg-white">
+                                <table class="table text-center table-borderless">
+                                    <thead class="card-header text-white">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Titre</th>
+                                        <th scope="col">Categorie</th>
+                                        <th scope="col">Operations</th>
+                                      </tr>
+                                    </thead>
+                                  </table>
+                            </div>
+                            <div class="allTaches">
+                              <table id="table" class="table table-borderless ">
+                                <tbody id="tbody">
+                                    
+                                </tbody>
+                              </table>
                             </div>
                             <!-- une tache  -->
-                            <!-- <div class="card-tache d-flex align-items-center justify-content-around mt-3">
-                                <span class="">1</span>
-                                <span class="">2023-08-15</span>
-                                <span class="">budget</span>
-                                <span class="">Academique</span>
-                                <div class="operation-button gap-1 d-flex ">
-                                    <span class="voir-button">
-                                        <i class="bi bi-eye-fill" data-id=""></i>
-                                    </span>
-                                    <span class="edit-button">
-                                        <i class="bi bi-pencil-fill" data-id=""></i>
-                                    </span>
-                                    <span class="delete-button">
-                                        <i class="bi bi-trash" data-id=""></i>
-                                    </span>
-                                </div>
-                            </div> -->
+                            <!-- <table class="table text-center table-borderless">
+                                <thead class="card-header text-white">
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Titre</th>
+                                    <th scope="col">Categorie</th>
+                                    <th scope="col">Operations</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th scope="row"></th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <div class="operation-button gap-1 d-flex ">
+                                            <span class="voir-button">
+                                                <i class="bi bi-eye-fill" data-id=""></i>
+                                            </span>
+                                            <span class="edit-button">
+                                                <i class="bi bi-pencil-fill" data-id=""></i>
+                                            </span>
+                                            <span class="delete-button">
+                                                <i class="bi bi-trash" data-id=""></i>
+                                            </span>
+                                        </div>
+                                    </td>
+                                  </tr>
+                                 
+                                </tbody>
+                              </table> -->
                             <!-- fin de la tache  -->
-                        </div>
-                        <!-- fin de card-body -->
-                    </div>
+                      
+                   
                 </div>
                 <!-- fin de la card  -->
 

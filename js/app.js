@@ -5,6 +5,8 @@ const textArea = document.getElementById('text-area');
 const selectStatut = document.getElementById('select-statut');
 const monButtonAjouter = document.getElementById('mon-button');
 const allTaches = document.querySelector('.allTaches')
+const tBody = document.getElementById('tbody');
+const maTable = document.getElementById('table')
 let tache_id = 1;
 
 
@@ -29,6 +31,7 @@ function saveToLocalStorage() {
         statut: selectStatutValue,
         area: textAreaValue
     };
+    tache_id++
 
     // Ajouter le nouvel objet à la liste des cartItems
     getItems.push(newTachesItems);
@@ -41,43 +44,51 @@ function saveToLocalStorage() {
 
 
 const afficherElementsDansPanier = () => {
-    allTaches.innerHTML = '';
+    tBody.innerHTML = '';
     let tacheItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
     tacheItems.forEach(item => {
-        const tacheItem = document.createElement('div');
-        tacheItem.classList.add('tache-item');
+        const tacheItem = document.createElement('tr');
         tacheItem.innerHTML = `
-        <div class="card-tache d-flex align-items-center justify-content-around mt-3">
-        <span class="">${item.id}</span>
-        <span class="">${item.date}</span>
-        <span class="">${item.titre}</span>
-        <span class="">${item.categorie}</span>
-        <div class="operation-button gap-1 d-flex ">
-            <span class="voir-button">
-                <i class="bi bi-eye-fill" data-id="${item.id}"></i>
-            </span>
-            <span class="edit-button">
-                <i class="bi bi-pencil-fill" data-id="${item.id}"></i>
-            </span>
-            <span class="delete-button">
-                <i class="bi bi-trash" data-id="${item.id}"></i>
-            </span>
-        </div>
-    </div>
+            <th scope="row">${item.id}</th>
+            <td>${item.date}</td>
+            <td>${item.titre}</td>
+            <td>${item.categorie}</td>
+            <td>
+                <div class="operation-button gap-1 d-flex justify-content-center">
+                    <span class="voir-button">
+                        <i class="bi bi-eye-fill" data-id="${item.id}"></i>
+                    </span>
+                    <span class="edit-button">
+                        <i class="bi bi-pencil-fill" data-id="${item.id}"></i>
+                    </span>
+                    <span class="delete-button">
+                        <i class="bi bi-trash" data-id="${item.id}"></i>
+                    </span>
+                </div>
+            </td>
         `;
-
-        allTaches.appendChild(tacheItem);
+        
+        tBody.appendChild(tacheItem);
+        maTable.appendChild(tBody)
+        allTaches.appendChild(maTable)
     });
 }
 
 afficherElementsDansPanier();
 
+function viderLesInputs() {
+    selectCategorie.value = "";
+    selectStatut.value = "";
+    inputDate.value = "";
+    inputTitre.value = "";
+    textArea.value = "";
+}
 
 
 monButtonAjouter.addEventListener('click', () => {
     saveToLocalStorage();
-    tache_id++
     afficherElementsDansPanier()
+    viderLesInputs();
 })
 
 
