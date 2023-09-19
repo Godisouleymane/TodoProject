@@ -68,4 +68,43 @@
 
 .listTacheHeader {
     height: 50px;
+    flex-wrap: wrap !important;
+   
+}
+
+.listTacheHeader span {
+    flex-wrap: wrap !important;
+}
+
+.voir-button {
+    background-color: rgb(6, 189, 221);
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    width: 40px;
+
+}
+
+.edit-button {
+    background-color: rgb(3, 255, 87);
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    width: 40px;
+
+}
+
+.delete-button {
+    background-color: red;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    width: 40px;
+
 }
