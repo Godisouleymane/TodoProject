@@ -6,7 +6,8 @@ const selectStatut = document.getElementById('select-statut');
 const monButtonAjouter = document.getElementById('mon-button');
 const allTaches = document.querySelector('.allTaches')
 const tBody = document.getElementById('tbody');
-const maTable = document.getElementById('table')
+const maTable = document.getElementById('table');
+const cardNotification = document.querySelector('.card-notification');
 let tache_id = 1;
 
 
@@ -41,9 +42,22 @@ function saveToLocalStorage() {
 
 }
 
+function notification(element, title, message) {
+    element.classList.remove('hidden');
+    element.innerHTML = `
+    <div class="card-header text-white text-center fw-bolder">
+        <h5 class="text-center">${title}</h5>
+    </div>
+    <div class="card-body">
+        <h5 class="text-center">${message}</h5>
+    </div>`;
+setTimeout(() => {
+    element.classList.add('hidden')
+}, 2000);
+}
 
 
-const afficherElementsDansPanier = () => {
+const afficherElementsDansListesDeTaches = () => {
     tBody.innerHTML = '';
     let tacheItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
     tacheItems.forEach(item => {
@@ -74,7 +88,8 @@ const afficherElementsDansPanier = () => {
     });
 }
 
-afficherElementsDansPanier();
+afficherElementsDansListesDeTaches();
+
 
 function viderLesInputs() {
     selectCategorie.value = "";
@@ -87,8 +102,9 @@ function viderLesInputs() {
 
 monButtonAjouter.addEventListener('click', () => {
     saveToLocalStorage();
-    afficherElementsDansPanier()
+    afficherElementsDansListesDeTaches()
     viderLesInputs();
+    notification(cardNotification, "Ajout de tache", "L'enregistrement s'est effectue avec succes")
 })
 
 
