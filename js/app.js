@@ -253,16 +253,22 @@ document.addEventListener('click', (e) => {
 function afficherInformationsTache(tache) {
     // Créez une div pour afficher les informations
     const infoDiv = document.createElement('div');
-    infoDiv.classList.add('info-tache'); // Ajoutez des styles CSS appropriés à cette classe
+    infoDiv.classList.add('card');
+    infoDiv.classList.add('p-0') // Ajoutez des styles CSS appropriés à cette classe
     
     // Remplissez la div avec les informations de la tâche
     infoDiv.innerHTML = `
-        <h2>Informations de la tâche</h2>
-        <p><strong>Titre:</strong> ${tache.titre}</p>
-        <p><strong>Date:</strong> ${tache.date}</p>
-        <p><strong>Catégorie:</strong> ${tache.categorie}</p>
-        <p><strong>Statut:</strong> ${tache.statut}</p>
-        <p><strong>Description:</strong> ${tache.area}</p>
+    <div class="card-header text-center text-white ">
+    <h2 class="card-header">Informations de la tâche</h2>          
+    </div>
+    <div class="card-body">
+    <p><strong>Titre:</strong> ${tache.titre}</p>
+    <p><strong>Date:</strong> ${tache.date}</p>
+    <p><strong>Catégorie:</strong> ${tache.categorie}</p>
+    <p><strong>Statut:</strong> ${tache.statut}</p>
+    <p><strong>Description:</strong> ${tache.area}</p>
+    </div>
+        
     `;
     
     // Ajoutez la div au centre de la page
@@ -279,14 +285,20 @@ function afficherInformationsTache(tache) {
     infoDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
     
     // Ajoutez un bouton pour fermer la div d'informations
+    const cardCloseButton = document.createElement('div');
+    cardCloseButton.classList.add('w-100')
+    cardCloseButton.classList.add('d-flex');
+    cardCloseButton.classList.add('justify-content-center');
+    cardCloseButton.classList.add('p-2')
     const closeButton = document.createElement('button');
+    cardCloseButton.appendChild(closeButton)
     closeButton.classList.add('close-button')
     closeButton.textContent = 'Fermer';
     closeButton.addEventListener('click', () => {
         // Supprimez la div d'informations lorsque le bouton est cliqué
         document.body.removeChild(infoDiv);
     });
-    infoDiv.appendChild(closeButton);
+    infoDiv.appendChild(cardCloseButton);
 }
 
 
