@@ -230,6 +230,65 @@ monButtonUpdate.addEventListener('click', () => {
 
 
 
+// Ajoutez un gestionnaire d'événements aux boutons "voir-button"
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('bi-eye-fill')) {
+        // Récupérer l'ID de la tâche à afficher depuis l'attribut data-id
+        const idToDisplay = parseInt(e.target.getAttribute('data-id'));
+        
+        // Récupérer les données de la tâche à partir du localStorage
+        const tacheToDisplay = JSON.parse(localStorage.getItem('tacheItems')).find(item => item.id === idToDisplay);
+        
+        // Vérifier si tacheToDisplay est définie avant d'afficher les informations
+        if (tacheToDisplay) {
+            // Appeler une fonction pour afficher les informations de la tâche
+            afficherInformationsTache(tacheToDisplay);
+        } else {
+            console.error("La tâche à afficher n'a pas été trouvée dans le localStorage.");
+        }
+    }
+});
+
+// Fonction pour afficher les informations de la tâche sélectionnée au centre de la page
+function afficherInformationsTache(tache) {
+    // Créez une div pour afficher les informations
+    const infoDiv = document.createElement('div');
+    infoDiv.classList.add('info-tache'); // Ajoutez des styles CSS appropriés à cette classe
+    
+    // Remplissez la div avec les informations de la tâche
+    infoDiv.innerHTML = `
+        <h2>Informations de la tâche</h2>
+        <p><strong>Titre:</strong> ${tache.titre}</p>
+        <p><strong>Date:</strong> ${tache.date}</p>
+        <p><strong>Catégorie:</strong> ${tache.categorie}</p>
+        <p><strong>Statut:</strong> ${tache.statut}</p>
+        <p><strong>Description:</strong> ${tache.area}</p>
+    `;
+    
+    // Ajoutez la div au centre de la page
+    document.body.appendChild(infoDiv);
+    
+   
+    infoDiv.style.position = 'fixed';
+    infoDiv.style.top = '50%';
+    infoDiv.style.left = '50%';
+    infoDiv.style.transform = 'translate(-50%, -50%)';
+    infoDiv.style.backgroundColor = 'white';
+    infoDiv.style.padding = '20px';
+    infoDiv.style.border = '2px solid #ccc';
+    infoDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    
+    // Ajoutez un bouton pour fermer la div d'informations
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('close-button')
+    closeButton.textContent = 'Fermer';
+    closeButton.addEventListener('click', () => {
+        // Supprimez la div d'informations lorsque le bouton est cliqué
+        document.body.removeChild(infoDiv);
+    });
+    infoDiv.appendChild(closeButton);
+}
+
 
 
 
