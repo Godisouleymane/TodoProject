@@ -32,7 +32,6 @@ function saveToLocalStorage() {
         statut: selectStatutValue,
         area: textAreaValue
     };
-    tache_id++
 
     // Ajouter le nouvel objet à la liste des cartItems
     getItems.push(newTachesItems);
@@ -90,8 +89,21 @@ const afficherElementsDansListesDeTaches = () => {
 
 afficherElementsDansListesDeTaches();
 
+window.addEventListener('load', () => {
+    // Récupérer la dernière valeur d'ID stockée dans le localStorage
+    const lastTacheId = parseInt(localStorage.getItem('lastTacheId')) || 0;
+    
+    // Initialiser tache_id avec la dernière valeur d'ID + 1 ou 1 par défaut
+    tache_id = lastTacheId === 0 ? 1 : lastTacheId;
+    
+    // Afficher les éléments dans la liste des taches
+    afficherElementsDansListesDeTaches();
+});
+
+
 
 function viderLesInputs() {
+   
     selectCategorie.value = "";
     selectStatut.value = "";
     inputDate.value = "";
@@ -103,15 +115,44 @@ function viderLesInputs() {
 monButtonAjouter.addEventListener('click', () => {
     saveToLocalStorage();
     afficherElementsDansListesDeTaches()
+    tache_id++
+    // Mettre à jour la dernière valeur d'ID stockée dans le localStorage
+    localStorage.setItem('lastTacheId', tache_id);
     viderLesInputs();
     notification(cardNotification, "Ajout de tache", "L'enregistrement s'est effectue avec succes")
+
 })
 
 
+// Fonction pour supprimer une tâche par ID
+function supprimerTacheParId(id) {
+    let tacheItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
+    
+    // Filtrer les tâches pour exclure celle avec l'ID spécifié
+    tacheItems = tacheItems.filter(item => item.id !== id);
+    
+    // Mettre à jour le localStorage avec la nouvelle liste de tâches
+    localStorage.setItem('tacheItems', JSON.stringify(tacheItems));
+    
+    // Mettre à jour la dernière valeur d'ID dans le localStorage
+    const lastTacheId = tacheItems.length > 0 ? tacheItems[tacheItems.length - 1].id : 0;
+    localStorage.setItem('lastTacheId', lastTacheId);
+    
+    // Mettre à jour l'affichage
+    afficherElementsDansListesDeTaches();
+}
 
 
-
-
+// Ajoutez un gestionnaire d'événements aux boutons "delete-button"
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('bi-trash')) {
+        // Récupérer l'ID de la tâche à supprimer depuis l'attribut data-id
+        const idToDelete = parseInt(e.target.getAttribute('data-id'));
+        
+        // Appeler la fonction pour supprimer la tâche par ID
+        supprimerTacheParId(idToDelete);
+    }
+});
 
 
 
