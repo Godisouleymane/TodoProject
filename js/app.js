@@ -8,8 +8,8 @@ const allTaches = document.querySelector('.allTaches')
 const tBody = document.getElementById('tbody');
 const maTable = document.getElementById('table');
 const cardNotification = document.querySelector('.card-notification');
+const monButtonUpdate = document.getElementById('mon-button-update')
 let tache_id = 1;
-
 
 
 function saveToLocalStorage() {
@@ -155,15 +155,70 @@ document.addEventListener('click', (e) => {
 });
 
 
+// Ajouter un gestionnaire d'événements aux boutons "edit-button"
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('bi-pencil-fill')) {
+        // Récupérer l'ID de la tâche à éditer depuis l'attribut data-id
+        const idToEdit = parseInt(e.target.getAttribute('data-id'));
+        
+        // Récupérer les données de la tâche à partir du localStorage
+        const tacheToEdit = JSON.parse(localStorage.getItem('tacheItems')).find(item => item.id === idToEdit);
+        
+        // Vérifier si tacheToEdit est définie avant de remplir les champs du formulaire
+        if (tacheToEdit) {
+            // Remplir les champs du formulaire avec les valeurs de la tâche
+            inputTitre.value = tacheToEdit.titre;
+            inputDate.value = tacheToEdit.date;
+            selectCategorie.value = tacheToEdit.categorie;
+            selectStatut.value = tacheToEdit.statut;
+            textArea.value = tacheToEdit.area;
+            
+            // Mettre à jour l'ID dans le formulaire (s'il est nécessaire)
+            tache_id = idToEdit;
+            monButtonUpdate.style.display = 'block';
+            monButtonAjouter.style.display = 'none';
+        } else {
+            console.error("La tâche à éditer n'a pas été trouvée dans le localStorage.");
+        }
+    }
+});
 
-
-
-
-
-
-
-
-
+// Ajouter un gestionnaire d'événements au bouton de mise à jour (monButtonUpdate)
+monButtonUpdate.addEventListener('click', () => {
+    // Récupérer les données actuelles du localStorage
+    const tacheItems = JSON.parse(localStorage.getItem('tacheItems'));
+    
+    // Trouver l'index de la tâche à mettre à jour dans la liste
+    const indexToUpdate = tacheItems.findIndex(item => item.id === tache_id);
+    
+    if (indexToUpdate !== -1) {
+        // Mettre à jour la tâche dans la liste
+        tacheItems[indexToUpdate] = {
+            titre: inputTitre.value,
+            date: inputDate.value,
+            categorie: selectCategorie.value,
+            id: tache_id,
+            statut: selectStatut.value,
+            area: textArea.value
+        };
+        
+        // Mettre à jour le localStorage avec la liste mise à jour
+        localStorage.setItem('tacheItems', JSON.stringify(tacheItems));
+        
+        // Réinitialiser les champs du formulaire
+        inputTitre.value = '';
+        inputDate.value = '';
+        selectCategorie.value = '';
+        selectStatut.value = '';
+        textArea.value = '';
+        monButtonAjouter.style.display = 'block';
+        monButtonUpdate.style.display = 'none';
+          // Mettre à jour l'affichage après la mise à jour
+          afficherElementsDansListesDeTaches();
+    } else {
+        console.error("La tâche à mettre à jour n'a pas été trouvée dans le localStorage.");
+    }
+});
 
 
 
