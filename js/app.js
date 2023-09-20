@@ -8,7 +8,8 @@ const allTaches = document.querySelector('.allTaches')
 const tBody = document.getElementById('tbody');
 const maTable = document.getElementById('table');
 const cardNotification = document.querySelector('.card-notification');
-const monButtonUpdate = document.getElementById('mon-button-update')
+const monButtonUpdate = document.getElementById('mon-button-update');
+const firstCardHeader = document.querySelector('.first-card-header')
 let tache_id = 1;
 
 
@@ -177,6 +178,8 @@ document.addEventListener('click', (e) => {
             tache_id = idToEdit;
             monButtonUpdate.style.display = 'block';
             monButtonAjouter.style.display = 'none';
+            firstCardHeader.classList.add('update-bg')
+            firstCardHeader.innerHTML = ` <h5 class="text-white">Mettre une tache a jour</h5>`
         } else {
             console.error("La tâche à éditer n'a pas été trouvée dans le localStorage.");
         }
@@ -213,8 +216,11 @@ monButtonUpdate.addEventListener('click', () => {
         textArea.value = '';
         monButtonAjouter.style.display = 'block';
         monButtonUpdate.style.display = 'none';
+        firstCardHeader.classList.remove('update-bg')
+        firstCardHeader.innerHTML = ` <h5 class="text-white">Ajout de tache</h5>`
           // Mettre à jour l'affichage après la mise à jour
           afficherElementsDansListesDeTaches();
+          notification(cardNotification, "Mise a jour", "Mise a jour effectue avec success")
     } else {
         console.error("La tâche à mettre à jour n'a pas été trouvée dans le localStorage.");
     }

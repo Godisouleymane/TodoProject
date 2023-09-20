@@ -143,3 +143,7 @@ td {
 .hidden {
     display: none;
 }
+
+.update-bg {
+    background-color: #00ff22 !important;
+}
