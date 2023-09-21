@@ -133,6 +133,11 @@ td {
     text-align: center;
 }
 
+tr:hover{
+    background-color: #5fca9e;
+    color: black;
+}
+
 .card-notification {
     z-index: 999;
     position: fixed;

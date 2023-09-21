@@ -9,7 +9,8 @@ const tBody = document.getElementById('tbody');
 const maTable = document.getElementById('table');
 const cardNotification = document.querySelector('.card-notification');
 const monButtonUpdate = document.getElementById('mon-button-update');
-const firstCardHeader = document.querySelector('.first-card-header')
+const firstCardHeader = document.querySelector('.first-card-header');
+const descriptionCard = document.querySelector('.desription-card');
 let tache_id = 1;
 
 
@@ -62,8 +63,10 @@ const afficherElementsDansListesDeTaches = () => {
     let tacheItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
     tacheItems.forEach(item => {
         const tacheItem = document.createElement('tr');
+        tacheItem.classList.add('tache-item')
+        tacheItem.setAttribute('data-id', item.id); // Ajoutez un attribut data-id
         tacheItem.innerHTML = `
-            <th scope="row">${item.id}</th>
+            <td>${item.id}</td>
             <td>${item.date}</td>
             <td>${item.titre}</td>
             <td>${item.categorie}</td>
@@ -81,6 +84,25 @@ const afficherElementsDansListesDeTaches = () => {
                 </div>
             </td>
         `;
+
+
+        tacheItem.addEventListener('click', () => {
+            // Récupérez l'ID de la tâche à partir de l'attribut data-id de la ligne de tâche
+            const idToDisplay = parseInt(tacheItem.getAttribute('data-id'));
+
+            // Utilisez l'ID pour récupérer la description de la tâche correspondante
+            const tacheItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
+            const tache = tacheItems.find(item => item.id === idToDisplay);
+
+            if (tache) {
+                // Affichez la description dans une div ou un autre élément
+                descriptionCard.innerHTML = `
+                    <p>
+                        ${tache.area}
+                    </p>
+                `
+            }
+        });
         
         tBody.appendChild(tacheItem);
         maTable.appendChild(tBody)
@@ -144,6 +166,8 @@ function supprimerTacheParId(id) {
     afficherElementsDansListesDeTaches();
     mettreAJourGraphique()
     tache_id--;
+
+    descriptionCard.innerHTML = "";
 }
 
 
@@ -227,6 +251,7 @@ monButtonUpdate.addEventListener('click', () => {
     } else {
         console.error("La tâche à mettre à jour n'a pas été trouvée dans le localStorage.");
     }
+    mettreAJourGraphique();
 });
 
 
