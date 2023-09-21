@@ -120,7 +120,8 @@ monButtonAjouter.addEventListener('click', () => {
     // Mettre à jour la dernière valeur d'ID stockée dans le localStorage
     localStorage.setItem('lastTacheId', tache_id);
     viderLesInputs();
-    notification(cardNotification, "Ajout de tache", "L'enregistrement s'est effectue avec succes")
+    notification(cardNotification, "Ajout de tache", "L'enregistrement s'est effectue avec succes");
+    mettreAJourGraphique()
 
 })
 
@@ -141,6 +142,8 @@ function supprimerTacheParId(id) {
     
     // Mettre à jour l'affichage
     afficherElementsDansListesDeTaches();
+    mettreAJourGraphique()
+    tache_id--;
 }
 
 
@@ -304,108 +307,15 @@ function afficherInformationsTache(tache) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 let myChart = document.getElementById('myDoughnutChart');
 let myDoughnutChart = new Chart(myChart, {
     type: 'doughnut',
     data: {
         labels: [],
         datasets: [{
-            data: [100, 20, 49],
-            backgroundColor: ['red', 'green', 'blue'],
+            label:['nouveau'],
+            data: [],
+            backgroundColor: [],
             borderColor: [],
             borderWidth: 1
         }]
@@ -416,3 +326,36 @@ let myDoughnutChart = new Chart(myChart, {
     },
 
 });
+
+// Fonction pour mettre à jour le graphique Doughnut
+function mettreAJourGraphique() {
+    // Obtenez les données actuelles des tâches depuis le localStorage
+    const tacheItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
+
+    // Calculez le nombre de statuts "Nouveau", "En cours" et "Terminé"
+    const nombreNouveau = tacheItems.filter(item => item.statut === 'Nouveau').length;
+    const nombreEnCours = tacheItems.filter(item => item.statut === 'En cours').length;
+    const nombreTermine = tacheItems.filter(item => item.statut === 'Terminer').length;
+
+    // Mettez à jour les données du graphique
+    // myDoughnutChart.data.labels = ['Nouveau', 'En cours', 'Terminé'];
+    myDoughnutChart.data.datasets[0].data = [nombreNouveau, nombreEnCours, nombreTermine];
+    myDoughnutChart.data.datasets[0].backgroundColor.push(getRandomColor());
+    // Mettez à jour le graphique
+    myDoughnutChart.update();
+}
+
+// Appelez la fonction pour mettre à jour le graphique au chargement de la page
+window.addEventListener('load', () => {
+    mettreAJourGraphique();
+});
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  
