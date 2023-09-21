@@ -313,7 +313,7 @@ let myDoughnutChart = new Chart(myChart, {
     data: {
         labels: [],
         datasets: [{
-            label:['nouveau'],
+            label:[],
             data: [],
             backgroundColor: [],
             borderColor: [],
@@ -332,6 +332,7 @@ function mettreAJourGraphique() {
     // Obtenez les données actuelles des tâches depuis le localStorage
     const tacheItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
 
+
     // Calculez le nombre de statuts "Nouveau", "En cours" et "Terminé"
     const nombreNouveau = tacheItems.filter(item => item.statut === 'Nouveau').length;
     const nombreEnCours = tacheItems.filter(item => item.statut === 'En cours').length;
@@ -339,6 +340,11 @@ function mettreAJourGraphique() {
 
     // Mettez à jour les données du graphique
     // myDoughnutChart.data.labels = ['Nouveau', 'En cours', 'Terminé'];
+    // Obtenez la liste des statuts uniques à partir de vos données de tâche
+const statuts = [...new Set(tacheItems.map(item => item.statut))];
+
+// Utilisez ces statuts comme libellés pour le dataset
+    myDoughnutChart.data.datasets[0].label = statuts;
     myDoughnutChart.data.datasets[0].data = [nombreNouveau, nombreEnCours, nombreTermine];
     myDoughnutChart.data.datasets[0].backgroundColor.push(getRandomColor());
     // Mettez à jour le graphique
