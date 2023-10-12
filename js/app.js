@@ -15,8 +15,6 @@ let tache_id = 1;
 
 
 function saveToLocalStorage() {
-
-
     const selectCategorieValue = selectCategorie.value;
     const inputTitreValue = inputTitre.value;
     const inputDateValue = inputDate.value;
@@ -110,6 +108,7 @@ const afficherElementsDansListesDeTaches = () => {
     });
 }
 
+
 afficherElementsDansListesDeTaches();
 
 window.addEventListener('load', () => {
@@ -126,7 +125,6 @@ window.addEventListener('load', () => {
 
 
 function viderLesInputs() {
-   
     selectCategorie.value = "";
     selectStatut.value = "";
     inputDate.value = "";
@@ -136,14 +134,27 @@ function viderLesInputs() {
 
 
 monButtonAjouter.addEventListener('click', () => {
-    saveToLocalStorage();
-    afficherElementsDansListesDeTaches()
-    tache_id++
-    // Mettre à jour la dernière valeur d'ID stockée dans le localStorage
-    localStorage.setItem('lastTacheId', tache_id);
-    viderLesInputs();
-    notification(cardNotification, "Ajout de tache", "L'enregistrement s'est effectue avec succes");
-    mettreAJourGraphique()
+    if (selectCategorie.value == "") {
+        notification(cardNotification, "Alert", "Categorie is required")
+    } else if (inputTitre.value === "") {
+        notification(cardNotification, "Alert", "Title is required")
+    } else if (inputDate.value === "") {
+        notification(cardNotification, "Alert", "Date is required")
+    } else if (textArea.value === "") {
+        notification(cardNotification, "Alert", "Description is required")
+    } else if (selectStatut.value === "") {
+        notification(cardNotification, "Alert", "Status is required")
+    }
+    else {
+        notification(cardNotification, "Ajout de tache", "L'enregistrement s'est effectue avec succes");
+        saveToLocalStorage();
+        tache_id++
+        // Mettre à jour la dernière valeur d'ID stockée dans le localStorage
+        localStorage.setItem('lastTacheId', tache_id);
+        viderLesInputs();
+        mettreAJourGraphique()
+        afficherElementsDansListesDeTaches()
+    }
 
 })
 
@@ -286,16 +297,16 @@ function afficherInformationsTache(tache) {
     
     // Remplissez la div avec les informations de la tâche
     infoDiv.innerHTML = `
-    <div class="card-header text-center text-white ">
-    <h2 class="card-header">Informations de la tâche</h2>          
-    </div>
-    <div class="card-body">
-    <p><strong>Titre:</strong> ${tache.titre}</p>
-    <p><strong>Date:</strong> ${tache.date}</p>
-    <p><strong>Catégorie:</strong> ${tache.categorie}</p>
-    <p><strong>Statut:</strong> ${tache.statut}</p>
-    <p><strong>Description:</strong> ${tache.area}</p>
-    </div>
+        <div class="card-header text-center text-white ">
+        <h2 class="card-header">Informations de la tâche</h2>          
+        </div>
+        <div class="card-body">
+        <p><strong>Titre:</strong> ${tache.titre}</p>
+        <p><strong>Date:</strong> ${tache.date}</p>
+        <p><strong>Catégorie:</strong> ${tache.categorie}</p>
+        <p><strong>Statut:</strong> ${tache.statut}</p>
+        <p><strong>Description:</strong> ${tache.area}</p>
+        </div>
         
     `;
     
@@ -334,7 +345,7 @@ function afficherInformationsTache(tache) {
 
 let myChart = document.getElementById('myDoughnutChart');
 let myDoughnutChart = new Chart(myChart, {
-    type: 'doughnut',
+    type: 'pie',
     data: {
         labels: [],
         datasets: [{
