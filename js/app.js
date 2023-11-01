@@ -11,6 +11,7 @@ const cardNotification = document.querySelector('.card-notification');
 const monButtonUpdate = document.getElementById('mon-button-update');
 const firstCardHeader = document.querySelector('.first-card-header');
 const descriptionCard = document.querySelector('.desription-card');
+const spanCategorie = document.querySelector('.span-categorie')
 let tache_id = 1;
 
 
@@ -20,7 +21,9 @@ function saveToLocalStorage() {
     const inputDateValue = inputDate.value;
     const textAreaValue = textArea.value;
     const selectStatutValue = selectStatut.value;
-    // verifier si les cartItems sont deja stocker dans le localStorage 
+
+
+    // verifier si les tachesItems sont deja stocker dans le localStorage 
     let getItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
 
     // Créer un nouvel objet représentant la tache
@@ -33,7 +36,7 @@ function saveToLocalStorage() {
         area: textAreaValue
     };
 
-    // Ajouter le nouvel objet à la liste des cartItems
+    // Ajouter le nouvel objet à la liste des tachesItems
     getItems.push(newTachesItems);
 
     // Enregistrer la liste mise à jour dans le localStorage
@@ -50,9 +53,9 @@ function notification(element, title, message) {
     <div class="card-body">
         <h5 class="text-center">${message}</h5>
     </div>`;
-setTimeout(() => {
-    element.classList.add('hidden')
-}, 2000);
+    setTimeout(() => {
+        element.classList.add('hidden')
+    }, 2000);
 }
 
 
@@ -62,7 +65,10 @@ const afficherElementsDansListesDeTaches = () => {
     tacheItems.forEach(item => {
         const tacheItem = document.createElement('tr');
         tacheItem.classList.add('tache-item')
-        tacheItem.setAttribute('data-id', item.id); // Ajoutez un attribut data-id
+        tacheItem.setAttribute('data-id', item.id);// Ajoutez un attribut data-id
+        if (item.id % 2 == 0) {
+            tacheItem.classList.add('colorTr');
+        }
         tacheItem.innerHTML = `
             <td>${item.id}</td>
             <td>${item.date}</td>
@@ -101,7 +107,7 @@ const afficherElementsDansListesDeTaches = () => {
                 `
             }
         });
-        
+
         tBody.appendChild(tacheItem);
         maTable.appendChild(tBody)
         allTaches.appendChild(maTable)
@@ -114,10 +120,10 @@ afficherElementsDansListesDeTaches();
 window.addEventListener('load', () => {
     // Récupérer la dernière valeur d'ID stockée dans le localStorage
     const lastTacheId = parseInt(localStorage.getItem('lastTacheId')) || 0;
-    
+
     // Initialiser tache_id avec la dernière valeur d'ID + 1 ou 1 par défaut
     tache_id = lastTacheId === 0 ? 1 : lastTacheId;
-    
+
     // Afficher les éléments dans la liste des taches
     afficherElementsDansListesDeTaches();
 });
@@ -142,7 +148,7 @@ monButtonAjouter.addEventListener('click', () => {
         notification(cardNotification, "Alert", "Date is required")
     } else if (textArea.value === "") {
         notification(cardNotification, "Alert", "Description is required")
-    } else if (selectStatut.value === "") {
+    } else if (selectStatut.value == "") {
         notification(cardNotification, "Alert", "Status is required")
     }
     else {
@@ -162,17 +168,17 @@ monButtonAjouter.addEventListener('click', () => {
 // Fonction pour supprimer une tâche par ID
 function supprimerTacheParId(id) {
     let tacheItems = JSON.parse(localStorage.getItem('tacheItems')) || [];
-    
+
     // Filtrer les tâches pour exclure celle avec l'ID spécifié
     tacheItems = tacheItems.filter(item => item.id !== id);
-    
+
     // Mettre à jour le localStorage avec la nouvelle liste de tâches
     localStorage.setItem('tacheItems', JSON.stringify(tacheItems));
-    
+
     // Mettre à jour la dernière valeur d'ID dans le localStorage
     const lastTacheId = tacheItems.length > 0 ? tacheItems[tacheItems.length - 1].id : 0;
     localStorage.setItem('lastTacheId', lastTacheId);
-    
+
     // Mettre à jour l'affichage
     afficherElementsDansListesDeTaches();
     mettreAJourGraphique()
@@ -187,7 +193,7 @@ document.addEventListener('click', (e) => {
     if (e.target.classList.contains('bi-trash')) {
         // Récupérer l'ID de la tâche à supprimer depuis l'attribut data-id
         const idToDelete = parseInt(e.target.getAttribute('data-id'));
-        
+
         // Appeler la fonction pour supprimer la tâche par ID
         supprimerTacheParId(idToDelete);
     }
@@ -199,10 +205,10 @@ document.addEventListener('click', (e) => {
     if (e.target.classList.contains('bi-pencil-fill')) {
         // Récupérer l'ID de la tâche à éditer depuis l'attribut data-id
         const idToEdit = parseInt(e.target.getAttribute('data-id'));
-        
+
         // Récupérer les données de la tâche à partir du localStorage
         const tacheToEdit = JSON.parse(localStorage.getItem('tacheItems')).find(item => item.id === idToEdit);
-        
+
         // Vérifier si tacheToEdit est définie avant de remplir les champs du formulaire
         if (tacheToEdit) {
             // Remplir les champs du formulaire avec les valeurs de la tâche
@@ -211,7 +217,7 @@ document.addEventListener('click', (e) => {
             selectCategorie.value = tacheToEdit.categorie;
             selectStatut.value = tacheToEdit.statut;
             textArea.value = tacheToEdit.area;
-            
+
             // Mettre à jour l'ID dans le formulaire (s'il est nécessaire)
             tache_id = idToEdit;
             monButtonUpdate.style.display = 'block';
@@ -224,14 +230,13 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Ajouter un gestionnaire d'événements au bouton de mise à jour (monButtonUpdate)
-monButtonUpdate.addEventListener('click', () => {
+function MiseAJourTache() {
     // Récupérer les données actuelles du localStorage
     const tacheItems = JSON.parse(localStorage.getItem('tacheItems'));
-    
+
     // Trouver l'index de la tâche à mettre à jour dans la liste
     const indexToUpdate = tacheItems.findIndex(item => item.id === tache_id);
-    
+
     if (indexToUpdate !== -1) {
         // Mettre à jour la tâche dans la liste
         tacheItems[indexToUpdate] = {
@@ -242,10 +247,10 @@ monButtonUpdate.addEventListener('click', () => {
             statut: selectStatut.value,
             area: textArea.value
         };
-        
+
         // Mettre à jour le localStorage avec la liste mise à jour
         localStorage.setItem('tacheItems', JSON.stringify(tacheItems));
-        
+
         // Réinitialiser les champs du formulaire
         inputTitre.value = '';
         inputDate.value = '';
@@ -256,13 +261,33 @@ monButtonUpdate.addEventListener('click', () => {
         monButtonUpdate.style.display = 'none';
         firstCardHeader.classList.remove('update-bg')
         firstCardHeader.innerHTML = ` <h5 class="text-white">Ajout de tache</h5>`
-          // Mettre à jour l'affichage après la mise à jour
-          afficherElementsDansListesDeTaches();
-          notification(cardNotification, "Mise a jour", "Mise a jour effectue avec success")
+        // Mettre à jour l'affichage après la mise à jour
+        afficherElementsDansListesDeTaches();
+        notification(cardNotification, "Mise a jour", "Mise a jour effectue avec success")
     } else {
         console.error("La tâche à mettre à jour n'a pas été trouvée dans le localStorage.");
     }
-    mettreAJourGraphique();
+}
+
+// Ajouter un gestionnaire d'événements au bouton de mise à jour (monButtonUpdate)
+monButtonUpdate.addEventListener('click', () => {
+    if (selectCategorie.value == "") {
+        notification(cardNotification, "Alert", "Categorie is required")
+    } else if (inputTitre.value === "") {
+        notification(cardNotification, "Alert", "Title is required")
+    } else if (inputDate.value === "") {
+        notification(cardNotification, "Alert", "Date is required")
+    } else if (textArea.value === "") {
+        notification(cardNotification, "Alert", "Description is required")
+    } else if (selectStatut.value == "") {
+        notification(cardNotification, "Alert", "Status is required")
+    }
+    else {
+        MiseAJourTache()
+        mettreAJourGraphique();
+    }
+  
+   
 });
 
 
@@ -274,10 +299,10 @@ document.addEventListener('click', (e) => {
     if (e.target.classList.contains('bi-eye-fill')) {
         // Récupérer l'ID de la tâche à afficher depuis l'attribut data-id
         const idToDisplay = parseInt(e.target.getAttribute('data-id'));
-        
+
         // Récupérer les données de la tâche à partir du localStorage
         const tacheToDisplay = JSON.parse(localStorage.getItem('tacheItems')).find(item => item.id === idToDisplay);
-        
+
         // Vérifier si tacheToDisplay est définie avant d'afficher les informations
         if (tacheToDisplay) {
             // Appeler une fonction pour afficher les informations de la tâche
@@ -294,7 +319,7 @@ function afficherInformationsTache(tache) {
     const infoDiv = document.createElement('div');
     infoDiv.classList.add('card');
     infoDiv.classList.add('p-0') // Ajoutez des styles CSS appropriés à cette classe
-    
+
     // Remplissez la div avec les informations de la tâche
     infoDiv.innerHTML = `
         <div class="card-header text-center text-white ">
@@ -309,11 +334,11 @@ function afficherInformationsTache(tache) {
         </div>
         
     `;
-    
+
     // Ajoutez la div au centre de la page
     document.body.appendChild(infoDiv);
-    
-   
+
+
     infoDiv.style.position = 'fixed';
     infoDiv.style.top = '50%';
     infoDiv.style.left = '50%';
@@ -322,7 +347,7 @@ function afficherInformationsTache(tache) {
     infoDiv.style.padding = '20px';
     infoDiv.style.border = '2px solid #ccc';
     infoDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-    
+
     // Ajoutez un bouton pour fermer la div d'informations
     const cardCloseButton = document.createElement('div');
     cardCloseButton.classList.add('w-100')
@@ -349,7 +374,7 @@ let myDoughnutChart = new Chart(myChart, {
     data: {
         labels: [],
         datasets: [{
-            label:[],
+            label: [],
             data: [],
             backgroundColor: [],
             borderColor: [],
@@ -377,9 +402,9 @@ function mettreAJourGraphique() {
     // Mettez à jour les données du graphique
     // myDoughnutChart.data.labels = ['Nouveau', 'En cours', 'Terminé'];
     // Obtenez la liste des statuts uniques à partir de vos données de tâche
-const statuts = [...new Set(tacheItems.map(item => item.statut))];
+    const statuts = [...new Set(tacheItems.map(item => item.statut))];
 
-// Utilisez ces statuts comme libellés pour le dataset
+    // Utilisez ces statuts comme libellés pour le dataset
     myDoughnutChart.data.datasets[0].label = statuts;
     myDoughnutChart.data.datasets[0].data = [nombreNouveau, nombreEnCours, nombreTermine];
     myDoughnutChart.data.datasets[0].backgroundColor.push(getRandomColor());
@@ -396,8 +421,12 @@ function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
-  
+}
+
+
+selectCategorie.addEventListener('click', () => {
+    spanCategorie.classList.remove('hidden')
+})

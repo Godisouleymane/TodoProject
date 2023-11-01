@@ -6,6 +6,11 @@
     background-color: #5fa085;
 }
 
+.colorTr {
+    background-color: #5fa085;
+    color: white;
+}
+
 #select-categorie, #select-statut {
     height: 40px;
     appearance: none;
@@ -95,6 +100,7 @@
 
 .voir-button {
     background-color: rgb(6, 189, 221);
+    color: white;
     font-size: 25px;
     display: flex;
     justify-content: center;
@@ -102,11 +108,18 @@
     border-radius: 5px;
     width: 40px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.voir-button:hover {
+    background-color: white;
+    border-radius: 5px;
+    color: rgb(6, 189, 221);
 }
 
 .edit-button {
     background-color: rgb(3, 255, 87);
+    color: white;
     font-size: 25px;
     display: flex;
     justify-content: center;
@@ -114,11 +127,17 @@
     border-radius: 5px;
     width: 40px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.edit-button:hover {
+    background-color: white;
+    color: rgb(3, 255, 87);
 }
 
 .delete-button {
     background-color: red;
+    color: white;
     font-size: 25px;
     display: flex;
     justify-content: center;
@@ -126,7 +145,12 @@
     border-radius: 5px;
     width: 40px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.delete-button:hover {
+    background-color: white;
+    color: red;
 }
 
 .bg-white {
@@ -137,9 +161,13 @@ td {
     text-align: center;
 }
 
+tr {
+    transition: all 0.3s ease;
+}
+
 tr:hover{
     background-color: #5fca9e;
-    color: black;
+    color: white;
 }
 
 .card-notification {
@@ -171,4 +199,20 @@ tr:hover{
     background-color: white;
     border: 2px solid #5fa085;
     color: #5fa085;
+}
+
+.span-categorie {
+    background-color: #5fa085;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    top: 6px;
+    left: 9px;
+    font-size: 10px;
+    transition: all 0.3s ease;
+}
+
+.hidden {
+    display: none;
 }
