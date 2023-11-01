@@ -203,6 +203,9 @@ document.addEventListener('click', (e) => {
 // Ajouter un gestionnaire d'événements aux boutons "edit-button"
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('bi-pencil-fill')) {
+
+        window.scrollTo(0, 0);
+
         // Récupérer l'ID de la tâche à éditer depuis l'attribut data-id
         const idToEdit = parseInt(e.target.getAttribute('data-id'));
 
