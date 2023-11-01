@@ -379,7 +379,7 @@ let myDoughnutChart = new Chart(myChart, {
         datasets: [{
             label: [],
             data: [],
-            backgroundColor: [],
+            backgroundColor: ["blue", "red", "green"],
             borderColor: [],
             borderWidth: 1
         }]
@@ -410,7 +410,6 @@ function mettreAJourGraphique() {
     // Utilisez ces statuts comme libellés pour le dataset
     myDoughnutChart.data.datasets[0].label = statuts;
     myDoughnutChart.data.datasets[0].data = [nombreNouveau, nombreEnCours, nombreTermine];
-    myDoughnutChart.data.datasets[0].backgroundColor.push(getRandomColor());
     // Mettez à jour le graphique
     myDoughnutChart.update();
 }
@@ -420,14 +419,7 @@ window.addEventListener('load', () => {
     mettreAJourGraphique();
 });
 
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
+
 
 
 selectCategorie.addEventListener('click', () => {
